@@ -19,11 +19,14 @@ body {
   align-items: stretch;
 }
 
+/* Container which holds everything besides nav and footer*/
 .main_page{
+  display: flex;
   max-width: 1000px;
   margin: 0 auto;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   flex: 1;
 }
 
@@ -69,6 +72,7 @@ body {
 
 /* Container which holds calendars*/
 .calendar_container {
+  max-width: 1000px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,6 +80,51 @@ body {
   margin: 20px 50px;
 }
 
+/* Container which holds dropdown and button for new pto*/
+.dropdown_pto{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 600px;
+  background-color: #03828b;
+}
+
+/* Dropdown for selecting employees*/
+#user_dropdown{
+  padding: 10px 20px;
+  width: 300px;
+  margin: 20px 0px;
+  margin-right: 20px;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Options for pto dropdown*/
+#user_dropdown option{
+  padding-right: 10px;
+}
+
+/* Button for new pto*/
+#new_pto{
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 20px 0px;
+  width: 150px;
+  height: 2.9em;
+  border: none;
+  background-color: #FFFFFF;
+}
+
+#new_pto:hover{
+  background-color: #dadada;
+  transition: 0.5s;
+}
+
+/* Footer style*/
 .footer{
   display: flex;
   justify-content: center;

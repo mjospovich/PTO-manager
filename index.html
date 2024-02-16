@@ -15,6 +15,9 @@
     <script src="/Scripts/calendar.js" defer></script>
   </head>
   <body>
+
+    <script src="Scripts/script.js"></script>
+
     <nav class="navbar">
       <div class="nav_title">PTO Manager</div>
       <div class="nav_button"><a href="#">Log-in/Log-out</a></div>
@@ -58,9 +61,9 @@
               <li>11</li>
               <li>12</li>
               <li>13</li>
-              <li class="today">14</li>
+              <li>14</li>
               <li>15</li>
-              <li>16</li>
+              <li class="today">16</li>
               <li>17</li>
               <li>18</li>
               <li>19</li>
@@ -116,9 +119,9 @@
               <li>11</li>
               <li>12</li>
               <li>13</li>
-              <li class="today">14</li>
+              <li>14</li>
               <li>15</li>
-              <li>16</li>
+              <li class="today">16</li>
               <li>17</li>
               <li>18</li>
               <li>19</li>
@@ -138,6 +141,18 @@
           </div>
         </div>
       </div>
+
+      <div class="dropdown pto">
+        <select id="user_dropdown">
+          <option value="">Select the employee</option>
+        </select>
+  
+        <button id="new_pto">
+          <p>New PTO</p>
+        </button>
+      </div>
+      
+
     </div>
 
     <footer>
