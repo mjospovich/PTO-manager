@@ -85,18 +85,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row;
-  margin: 0 auto;
+  flex-direction: column;
+  margin: 20px auto;
   width: 600px;
-  background-color: #03828b;
+  background-color: #059ca7;
 }
 
 /* Dropdown for selecting employees*/
 #user_dropdown{
   padding: 10px 20px;
   width: 300px;
-  margin: 20px 0px;
-  margin-right: 20px;
+  margin: 10px 0px;
   background-color: #FFFFFF;
   border-radius: 5px;
   border: none;
@@ -112,7 +111,7 @@ body {
   position: relative;
   padding: 10px 20px;
   border-radius: 5px;
-  margin: 20px 0px;
+  margin: 10px 0px;
   width: 150px;
   height: 2.9em;
   border: none;
