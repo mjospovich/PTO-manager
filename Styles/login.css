@@ -1,0 +1,62 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background: #059ca7;
+  flex-direction: column;
+}
+
+.login_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  width: 50%;
+  max-width: 400px;
+  margin-top: 25%;
+}
+
+h1 {
+  color: #333333;
+  margin-bottom: 20px;
+}
+
+.login_creds {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.login_creds label {
+  display: block;
+  color: #666666;
+  margin-bottom: 5px;
+}
+
+.login_creds input[type="text"],
+.login_creds input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+}
+
+.login_creds input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #059ca7;
+  color: #FFFFFF;
+  cursor: pointer;
+  border: none;
+  transition: 0.5s;
+}
+
+.login_creds input[type="submit"]:hover {
+  background-color: #047179; /* Darker shade for hover effect */
+  transition: 0.5s;
+}
