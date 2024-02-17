@@ -3,6 +3,7 @@
 .calendar1, .calendar2 {
   width: 380px;
   background: #ffffff;
+  border-radius: 5px;
 }
 
 .calendar1 {
