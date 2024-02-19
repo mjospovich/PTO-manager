@@ -93,6 +93,14 @@ header .icons_1 span:last-child, header .icons_2 span:last-child{
   color: #FFFFFF;
 }
 
+.days_1 li.select_start::before{
+  border: 2px solid #16E9F8;
+}
+
+.days_2 li.select_end::before{
+  border: 2px solid #16E9F8;
+}
+
 .calendar .days_1 li::before, .calendar .days_2 li::before{
   position: absolute;
   content: "";
