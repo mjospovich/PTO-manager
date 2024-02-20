@@ -75,7 +75,7 @@ function isEmailValid(email) {
 }
 
 //* Function for login
-function logInFunc(event){
+function logInFunc(event) {
   event.preventDefault();
 
   const emailInput = document.querySelector("#email").value;
@@ -83,17 +83,16 @@ function logInFunc(event){
 
   //alert("Email: " + emailInput + " Password: " + passInput);
 
-  if (isEmailValid(emailInput) && isPasswordValid(passInput)){
-
-    document.cookie = "userLoggedIn = True ;path=/ ;SameSite=Lax ;expires=31 Dec 9999";
+  if (isEmailValid(emailInput) && isPasswordValid(passInput)) {
+    //alert(emailInput.split("@")[0]);
+    let name = emailInput.split("@")[0];
+    document.cookie = "userLoggedIn=True;path=/;SameSite=Lax;expires=31 Dec 9999";
+    document.cookie = "name=" + name + ";path=/;SameSite=Lax;expires=31 Dec 9999";
     window.location.href = "./index.html";
-  }
-
-  else{
-    alert("Email or password not valid!")
+  } else {
+    alert("Email or password not valid!");
   }
 }
-
 
 //* Getting stuff from form
 const logInForm = document.querySelector(".login_form");
