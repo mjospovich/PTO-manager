@@ -38,5 +38,18 @@ async function fetchEmployees() {
   }
 }
 
+
 // Call fetch for employees
 document.addEventListener("DOMContentLoaded", fetchEmployees);
+
+const newPtoButton = document.querySelector("#new_pto");
+
+newPtoButton.addEventListener("click", () => {
+  let startDate = localStorage.getItem("startDate");
+  let endDate = localStorage.getItem("endDate");
+  let selectedUser = document.querySelector("#user_dropdown").value
+
+  alert(startDate + ", " + endDate + " " + selectedUser)
+});
+
+//console.log(selectedUser, "  ", startDate, "  ", endDate);

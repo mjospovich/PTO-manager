@@ -21,6 +21,14 @@ months = [
 let selectedDateStart;
 let selectedDateEnd;
 
+// Function for formatting dates
+function formatDate(year, month, dayNumber) {
+  const formattedMonth = (month + 1).toString().padStart(2, '0');
+  const formattedDay = dayNumber.toString().padStart(2, '0');
+
+  return `${year}-${formattedMonth}-${formattedDay}`;
+}
+
 // Function that renders calendars
 const renderCalendar = (calendar, year, month, daysTag, num) => {
   let firstDay = new Date(year, month, 1).getDay();
@@ -75,7 +83,8 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
       const dayNumber = parseInt(day.textContent, 10);
 
       if (num == 1) {
-        selectedDateStart = new Date(year, month, dayNumber);
+        selectedDateStart = formatDate(year, month, dayNumber)
+        localStorage.setItem("startDate", selectedDateStart);     
         //alert(selectedDateStart);
 
         daysTag.querySelectorAll("li").forEach((day) => {
@@ -84,7 +93,8 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
 
         day.classList.add("select_start");
       } else if (num == 2) {
-        selectedDateEnd = new Date(year, month, dayNumber);
+        selectedDateEnd = formatDate(year, month, dayNumber)
+        localStorage.setItem("endDate", selectedDateEnd);
         //alert(selectedDateEnd);
 
         daysTag.querySelectorAll("li").forEach((day) => {
