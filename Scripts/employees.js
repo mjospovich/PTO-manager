@@ -39,17 +39,51 @@ async function fetchEmployees() {
 }
 
 
+function newPto(){
+  const newPtoButton = document.querySelector("#new_pto");
+
+  newPtoButton.addEventListener("click", () => {
+    let startDate = localStorage.getItem("startDate");
+    let endDate = localStorage.getItem("endDate");
+    let selectedUser = document.querySelector("#user_dropdown").value;
+    const employees = JSON.parse(localStorage.getItem("employees"));
+  
+    //alert(startDate + ", " + endDate + " " + selectedUser)
+
+    // Check if user has selected dates
+    if (!startDate || !endDate){
+      alert("You need to select start and end dates!");
+      location.reload();
+    }
+
+    // Check if user selected an option in dropdown
+    else if (!selectedUser){
+      alert("You need to select the employee!");
+      location.reload();
+    }
+
+    // Check if end date if prior to start date
+    else if (startDate > endDate){
+      alert("Start date needs to be prior to end date!")
+      location.reload();
+    }
+
+    //alert(employees[selectedUser - 1].name);
+    let pto = startDate + " - " + endDate;
+    employees[selectedUser-1].ptos.push(pto);
+    localStorage.setItem("employees", JSON.stringify(employees));
+
+    // Reset local storage for dates
+    localStorage.setItem("startDate", "");
+    localStorage.setItem("endDate", "");
+    //location.reload();
+  });
+
+}
+
+
 // Call fetch for employees
 document.addEventListener("DOMContentLoaded", fetchEmployees);
 
-const newPtoButton = document.querySelector("#new_pto");
-
-newPtoButton.addEventListener("click", () => {
-  let startDate = localStorage.getItem("startDate");
-  let endDate = localStorage.getItem("endDate");
-  let selectedUser = document.querySelector("#user_dropdown").value
-
-  alert(startDate + ", " + endDate + " " + selectedUser)
-});
-
-//console.log(selectedUser, "  ", startDate, "  ", endDate);
+// Call newPto listener
+newPto();
