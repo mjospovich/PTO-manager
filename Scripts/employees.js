@@ -24,6 +24,7 @@ async function fetchEmployees() {
     // Store the array to local storage
     localStorage.setItem("employees", JSON.stringify(employees));
     makeOptions();
+    //makeContainers();
 
     
   } catch (error) {
@@ -32,7 +33,7 @@ async function fetchEmployees() {
 }
 
 
-// For options in the dropdown
+//* Function for generating options in the dropdown
 function makeOptions(){
   const employees = JSON.parse(localStorage.getItem("employees"));
   const dropdown = document.getElementById("user_dropdown");
@@ -44,7 +45,47 @@ function makeOptions(){
   });
 }
 
+//* Function that creates empty employee containers
+function makeContainers(){
+  const employees = JSON.parse(localStorage.getItem("employees"));
 
+  employees.forEach((employee) => {
+
+    const id = employee.id;
+
+    const profileContainer = document.createElement("div");
+    profileContainer.classList.add("profile_container");
+    profileContainer.id = "profile_container_" + id;
+    
+    const ptoContainer = document.createElement("div");
+    ptoContainer.classList.add("pto_container");
+    ptoContainer.id = "pto_container_" + id;
+
+    const fullName = document.createElement("p");
+    fullName.classList.add("fullname_par");
+    fullName.textContent = employee.name;
+
+    const email = document.createElement("p");
+    email.classList.add("email_par");
+    email.textContent = "email: " + employee.email;
+
+    const hr = document.createElement("hr");
+
+    profileContainer.appendChild(fullName);
+    profileContainer.appendChild(email);
+    profileContainer.appendChild(hr)
+    profileContainer.appendChild(ptoContainer);
+
+   profileContainer.style.display = "none";
+
+    const main_page = document.querySelector(".main_page");
+    main_page.appendChild(profileContainer);
+
+  })
+
+}
+
+//* Function for creating new pto 
 function newPto(){
   const newPtoButton = document.querySelector("#new_pto");
 
@@ -95,6 +136,7 @@ if (!localStorage.getItem("employees")){
 // If already there just make optionst for dropdown
 else{
   makeOptions();
+  makeContainers();
 }
 
 // Call newPto listener

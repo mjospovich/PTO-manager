@@ -39,6 +39,9 @@ else {
   loginMsg.textContent = "You are not logged in!";
 
   loginButton.setAttribute("href", "login.html");
+
+  // Clear some local variables
+  localStorage.clear("employees");
 }
 
 
