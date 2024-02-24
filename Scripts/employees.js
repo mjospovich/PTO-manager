@@ -23,19 +23,25 @@ async function fetchEmployees() {
 
     // Store the array to local storage
     localStorage.setItem("employees", JSON.stringify(employees));
+    makeOptions();
 
-    // For options in the dropdown
-    const dropdown = document.getElementById("user_dropdown");
-    employees.forEach((employee) => {
-      const option = document.createElement("option");
-      option.value = employee.id;
-      option.textContent = employee.name;
-      dropdown.appendChild(option);
-    });
     
   } catch (error) {
     console.error(error);
   }
+}
+
+
+// For options in the dropdown
+function makeOptions(){
+  const employees = JSON.parse(localStorage.getItem("employees"));
+  const dropdown = document.getElementById("user_dropdown");
+  employees.forEach((employee) => {
+    const option = document.createElement("option");
+    option.value = employee.id;
+    option.textContent = employee.name;
+    dropdown.appendChild(option);
+  });
 }
 
 
@@ -76,14 +82,20 @@ function newPto(){
     // Reset local storage for dates
     localStorage.setItem("startDate", "");
     localStorage.setItem("endDate", "");
-    //location.reload();
+    location.reload();
   });
 
 }
 
 
-// Call fetch for employees
-document.addEventListener("DOMContentLoaded", fetchEmployees);
+// Call fetch for employees for the first time
+if (!localStorage.getItem("employees")){
+  document.addEventListener("DOMContentLoaded", fetchEmployees);
+}
+// If already there just make optionst for dropdown
+else{
+  makeOptions();
+}
 
 // Call newPto listener
 newPto();
