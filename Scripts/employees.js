@@ -115,10 +115,12 @@ function newPto(){
       location.reload();
     }
 
-    //alert(employees[selectedUser - 1].name);
-    let pto = startDate + " - " + endDate;
-    employees[selectedUser-1].ptos.push(pto);
-    localStorage.setItem("employees", JSON.stringify(employees));
+    else{
+      //alert(employees[selectedUser - 1].name);
+      let pto = startDate + " - " + endDate;
+      employees[selectedUser-1].ptos.push(pto);
+      localStorage.setItem("employees", JSON.stringify(employees));
+    }
 
     // Reset local storage for dates
     localStorage.setItem("startDate", "");
