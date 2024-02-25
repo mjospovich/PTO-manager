@@ -17,14 +17,14 @@ months = [
   "December",
 ];
 
-// Global variables for start and end date 
+// Global variables for start and end date
 let selectedDateStart;
 let selectedDateEnd;
 
 // Function for formatting dates
 function formatDate(year, month, dayNumber) {
-  const formattedMonth = (month + 1).toString().padStart(2, '0');
-  const formattedDay = dayNumber.toString().padStart(2, '0');
+  const formattedMonth = (month + 1).toString().padStart(2, "0");
+  const formattedDay = dayNumber.toString().padStart(2, "0");
 
   return `${year}-${formattedMonth}-${formattedDay}`;
 }
@@ -39,7 +39,7 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
   let tag = "";
 
   for (let i = firstDay; i > 0; i--) {
-    tag += `<li class="other_month_${num}">${lastDate - i + 1}</li>`;
+    tag += `<li class="other_month_${num}">${lastDatePrev - i + 1}</li>`;
   }
 
   for (let i = 1; i <= lastDate; i++) {
@@ -58,21 +58,20 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
       selectedDateEnd.getMonth() === month &&
       selectedDateEnd.getFullYear() === year;
 
-    
     // Writing all days to calendar some today some selected others with no class
     if (
       today === new Date().getDate() &&
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
-      tag += `<li class="today${isSelectedStart ? " select_start" : ""}${
-        isSelectedEnd ? " select_end" : ""
-      }">${i}</li>`;
+      tag += `<li class="today${isSelectedStart || isSelectedEnd ? " select_start_end" : ""}">${i}</li>`;
     } else {
-      tag += `<li${isSelectedStart ? ' class="select_start"' : ""}${
-        isSelectedEnd ? ' class="select_end"' : ""
-      }>${i}</li>`;
+      tag += `<li${isSelectedStart ? ' class="select_start"' : ""}${isSelectedEnd ? ' class="select_end"' : ""}>${i}</li>`;
     }
+  }
+
+  for (let i = 1; i <= 6 - lastDay; i++) {
+    tag += `<li class="other_month_${num}">${i}</li>`;
   }
 
   calendar.innerHTML = `${months[month]} ${year}`;
@@ -83,8 +82,10 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
       const dayNumber = parseInt(day.textContent, 10);
 
       if (num == 1) {
-        selectedDateStart = formatDate(year, month, dayNumber)
-        localStorage.setItem("startDate", selectedDateStart);     
+        selectedDateStart = new Date(year, month, dayNumber);
+        formattedStart = formatDate(year, month, dayNumber);
+
+        localStorage.setItem("startDate", formattedStart);
         //alert(selectedDateStart);
 
         daysTag.querySelectorAll("li").forEach((day) => {
@@ -93,8 +94,10 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
 
         day.classList.add("select_start");
       } else if (num == 2) {
-        selectedDateEnd = formatDate(year, month, dayNumber)
-        localStorage.setItem("endDate", selectedDateEnd);
+        selectedDateEnd = new Date(year, month, dayNumber);
+        formattedEnd = formatDate(year, month, dayNumber);
+
+        localStorage.setItem("endDate", formattedEnd);
         //alert(selectedDateEnd);
 
         daysTag.querySelectorAll("li").forEach((day) => {
