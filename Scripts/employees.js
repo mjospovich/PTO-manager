@@ -76,10 +76,10 @@ function makeContainers(){
     profileContainer.appendChild(hr)
     profileContainer.appendChild(ptoContainer);
 
-   profileContainer.style.display = "none";
+    profileContainer.style.display = "none";
 
-    const main_page = document.querySelector(".main_page");
-    main_page.appendChild(profileContainer);
+    const pto_div = document.querySelector(".pto_div");
+    pto_div.appendChild(profileContainer);
 
   })
 
