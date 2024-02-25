@@ -38,67 +38,65 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
 
   let tag = "";
 
-  for (let i = firstDay; i > 0; i--) {
-    tag += `<li class="other_month_${num}">${lastDatePrev - i + 1}</li>`;
+  // Adding days from the previous month
+  for (let i = lastDatePrev - firstDay + 1; i <= lastDatePrev; i++) {
+    tag += `<li class="other_month_${num}" data-month="${month - 1}">${i}</li>`;
   }
 
+  // Adding days for the current month
   for (let i = 1; i <= lastDate; i++) {
     let today = i;
 
-    // To be sure that the selected start stays when switching months
+    // Check for selected dates
     const isSelectedStart =
       selectedDateStart &&
       selectedDateStart.getDate() === today &&
       selectedDateStart.getMonth() === month &&
       selectedDateStart.getFullYear() === year;
-    // Same but for end date
     const isSelectedEnd =
       selectedDateEnd &&
       selectedDateEnd.getDate() === today &&
       selectedDateEnd.getMonth() === month &&
       selectedDateEnd.getFullYear() === year;
 
-    // Writing all days to calendar some today some selected others with no class
-    if (
-      today === new Date().getDate() &&
-      year === new Date().getFullYear() &&
-      month === new Date().getMonth()
-    ) {
-      tag += `<li class="today${isSelectedStart || isSelectedEnd ? " select_start_end" : ""}">${i}</li>`;
-    } else {
-      tag += `<li${isSelectedStart ? ' class="select_start"' : ""}${isSelectedEnd ? ' class="select_end"' : ""}>${i}</li>`;
-    }
+    // Add the day to the calendar
+    tag += `<li${isSelectedStart ? ' class="select_start"' : ""}${isSelectedEnd ? ' class="select_end"' : ""} data-month="${month}">${i}</li>`;
   }
 
+  // Adding days from the next month
   for (let i = 1; i <= 6 - lastDay; i++) {
-    tag += `<li class="other_month_${num}">${i}</li>`;
+    tag += `<li class="other_month_${num}" data-month="${month + 1}">${i}</li>`;
   }
 
+  // Update the calendar HTML
   calendar.innerHTML = `${months[month]} ${year}`;
   daysTag.innerHTML = tag;
 
+  // Add event listeners for day selection
   daysTag.querySelectorAll("li").forEach((day) => {
     day.addEventListener("click", () => {
       const dayNumber = parseInt(day.textContent, 10);
+      const selectedMonth = parseInt(day.getAttribute("data-month"), 10);
 
       if (num == 1) {
-        selectedDateStart = new Date(year, month, dayNumber);
-        formattedStart = formatDate(year, month, dayNumber);
+        selectedDateStart = new Date(year, selectedMonth, dayNumber);
+        formattedStart = formatDate(year, selectedMonth, dayNumber); 
 
         localStorage.setItem("startDate", formattedStart);
-        //alert(selectedDateStart);
+        //alert(selectedDateStart)
 
         daysTag.querySelectorAll("li").forEach((day) => {
           day.classList.remove("select_start");
         });
 
         day.classList.add("select_start");
+
       } else if (num == 2) {
-        selectedDateEnd = new Date(year, month, dayNumber);
-        formattedEnd = formatDate(year, month, dayNumber);
+        selectedDateEnd = new Date(year, selectedMonth, dayNumber);
+        formattedEnd = formatDate(year, selectedMonth, dayNumber);
 
         localStorage.setItem("endDate", formattedEnd);
-        //alert(selectedDateEnd);
+        //alert(selectedDateEnd)
 
         daysTag.querySelectorAll("li").forEach((day) => {
           day.classList.remove("select_end");
@@ -109,6 +107,7 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
     });
   });
 };
+
 
 //* Script for first calendar
 const currDate1 = document.querySelector(".current_date_1");
