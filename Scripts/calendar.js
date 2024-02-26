@@ -38,12 +38,12 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
 
   let tag = "";
 
-  // Adding days from the previous month
+  // Days from the previous month
   for (let i = lastDatePrev - firstDay + 1; i <= lastDatePrev; i++) {
     tag += `<li class="other_month_${num}" data-month="${month - 1}">${i}</li>`;
   }
 
-  // Adding days for the current month
+  // Days for the current month
   for (let i = 1; i <= lastDate; i++) {
     let today = i;
 
@@ -59,25 +59,26 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
       selectedDateEnd.getMonth() === month &&
       selectedDateEnd.getFullYear() === year;
 
-    // Add the day to the calendar
+    // To kkep track of what day is selected
     tag += `<li${isSelectedStart ? ' class="select_start"' : ""}${isSelectedEnd ? ' class="select_end"' : ""} data-month="${month}">${i}</li>`;
   }
 
-  // Adding days from the next month
+  // Days from the next month
   for (let i = 1; i <= 6 - lastDay; i++) {
     tag += `<li class="other_month_${num}" data-month="${month + 1}">${i}</li>`;
   }
 
-  // Update the calendar HTML
+  // Updatin the calendar HTML
   calendar.innerHTML = `${months[month]} ${year}`;
   daysTag.innerHTML = tag;
 
-  // Add event listeners for day selection
+  // Event listeners for selecting 
   daysTag.querySelectorAll("li").forEach((day) => {
     day.addEventListener("click", () => {
       const dayNumber = parseInt(day.textContent, 10);
       const selectedMonth = parseInt(day.getAttribute("data-month"), 10);
 
+      // This is just for first calendar because start is on it
       if (num == 1) {
         selectedDateStart = new Date(year, selectedMonth, dayNumber);
         formattedStart = formatDate(year, selectedMonth, dayNumber); 
@@ -91,6 +92,8 @@ const renderCalendar = (calendar, year, month, daysTag, num) => {
 
         day.classList.add("select_start");
 
+
+      // This is for second calendar cos there is the end day
       } else if (num == 2) {
         selectedDateEnd = new Date(year, selectedMonth, dayNumber);
         formattedEnd = formatDate(year, selectedMonth, dayNumber);
