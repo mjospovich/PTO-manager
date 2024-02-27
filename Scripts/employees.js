@@ -21,7 +21,9 @@ async function fetchEmployees() {
         id: employee.id,
         name: employee.name,
         email: employee.email,
-        ptos: []
+        pto_past : [],
+        pto_current: [],
+        pto_future: []
       };
 
       // Then store it to array
@@ -65,10 +67,25 @@ function makeContainers(){
     profileContainer.classList.add("profile_container");
     profileContainer.id = "profile_container_" + id;
     
-    // Here go all ptos of that employee
-    const ptoContainer = document.createElement("div");
-    ptoContainer.classList.add("pto_container");
-    ptoContainer.id = "pto_container_" + id
+    // Here go all past ptos of that employee
+    const pastPtoContainer = document.createElement("div");
+    pastPtoContainer.classList.add("past_pto_container");
+    pastPtoContainer.id = "past_pto_container_" + id;
+
+    // Here go all current ptos of that employee
+    const currentPtoContainer = document.createElement("div");
+    currentPtoContainer.classList.add("current_pto_container");
+    currentPtoContainer.id = "current_pto_container_" + id;
+
+    // Here go all future ptos of that employee
+    const futurePtoContainer = document.createElement("div");
+    futurePtoContainer.classList.add("future_pto_container");
+    futurePtoContainer.id = "future_pto_container_" + id;
+
+    // Holds name email and id
+    const infoPtoContainer = document.createElement("div");
+    infoPtoContainer.classList.add("info_pto_container");
+    infoPtoContainer.id = "info_pto_container_" + id;
 
     // Name on top of the profile container and the id
     const fullName = document.createElement("p");
@@ -80,33 +97,97 @@ function makeContainers(){
     email.classList.add("email_par");
     email.textContent = "email: " + employee.email;
 
-    // Seperates info from pto container
-    const hr = document.createElement("hr");
+    // Text for past future and current ptos
+    const past_p = document.createElement("p");
+    past_p.textContent = "Past ptos:"
+    const current_p = document.createElement("p");
+    current_p.textContent = "Current ptos:"
+    const future_p = document.createElement("p");
+    future_p.textContent = "Future ptos:"
+
+    // Append all to info container
+    infoPtoContainer.appendChild(fullName);
+    infoPtoContainer.appendChild(email);
+
+    // Append to past current and fuiture pto containers
+    pastPtoContainer.appendChild(past_p);
+    currentPtoContainer.appendChild(current_p);
+    futurePtoContainer.appendChild(future_p);
 
     // APpend all to big container
-    profileContainer.appendChild(fullName);
-    profileContainer.appendChild(email);
-    profileContainer.appendChild(hr)
-    profileContainer.appendChild(ptoContainer);
+    profileContainer.appendChild(infoPtoContainer);
+    profileContainer.appendChild(pastPtoContainer);
+    profileContainer.appendChild(currentPtoContainer)
+    profileContainer.appendChild(futurePtoContainer);
 
     // All hidden at starrt
     profileContainer.style.display = "none";
+    pastPtoContainer.style.display = "none";
+    currentPtoContainer.style.display = "none";
+    futurePtoContainer.style.display = "none";
 
     // Added to seperate div 
     const pto_div = document.querySelector(".pto_div");
     pto_div.appendChild(profileContainer);
 
-    if(employee.ptos.length != 0){
+    // to know when not empty
+    let len_past = employee.pto_past.length;
+    let len_current = employee.pto_current.length;
+    let len_future = employee.pto_future.length;
 
+    if(len_past || len_current || len_future){
+
+      // variables needed
+      let sentPtoContainer = "";
+
+      // show their profile container
       profileContainer.style.display = "";
 
-      employee.ptos.forEach((dates) =>{
-        startDate = dates.split(" - ")[0];
-        endDate = dates.split(" - ")[1];
+      // only do show and create pto for one not empty
+      if(len_past){
+        pastPtoContainer.style.display = "";
 
-        //alert(startDate + "  " + endDate);
-        pto_create(startDate, endDate, id);
-      })
+        sentPtoContainer = pastPtoContainer;
+
+        employee.pto_past.forEach((dates) =>{
+          startDate = dates.split(" - ")[0];
+          endDate = dates.split(" - ")[1];
+  
+          //alert(startDate + "  " + endDate);
+          pto_create(startDate, endDate, id, sentPtoContainer);
+        })
+
+      }
+
+      if (len_current){
+        currentPtoContainer.style.display = "";
+
+        sentPtoContainer = currentPtoContainer;
+
+        employee.pto_current.forEach((dates) =>{
+          startDate = dates.split(" - ")[0];
+          endDate = dates.split(" - ")[1];
+  
+          //alert(startDate + "  " + endDate);
+          pto_create(startDate, endDate, id, sentPtoContainer);
+        })
+      }
+
+      if(len_future){
+        futurePtoContainer.style.display = "";
+
+        sentPtoContainer = futurePtoContainer;
+
+        employee.pto_future.forEach((dates) =>{
+          startDate = dates.split(" - ")[0];
+          endDate = dates.split(" - ")[1];
+  
+          //alert(startDate + "  " + endDate);
+          pto_create(startDate, endDate, id, sentPtoContainer);
+        })
+      }
+
+
     }
 
   })
@@ -114,12 +195,11 @@ function makeContainers(){
 }
 
 //* Function that takes in info about new pto and creates it for that employee
-function pto_create(start, end, id){
+function pto_create(start, end, id, ptoContainer){
    
   const month = Number(start.slice(6,7));
   //alert(start.slice(6,7))
-  const ptoContainer = document.getElementById("pto_container_" + id)
-  //alert("#pto_container_" + id)
+  
   
   let img = "";
 
@@ -143,24 +223,28 @@ function pto_create(start, end, id){
   }
 
   // Container for new pto that goes inside ptoContainer
-  const new_pto_container = document.createElement("div");
-  new_pto_container.classList.add("inner_pto");
+  const newPtoContainer = document.createElement("div");
+  newPtoContainer.classList.add("inner_pto");
 
   // Make image element and add source to it depending on season
   const imageElem = document.createElement("img");
   imageElem.classList.add("pto_image");
   imageElem.src = img;
 
-  const pto_date = document.createElement("p");
-  pto_date.textContent = start + " - " + end;
+  const ptoDate = document.createElement("p");
+  ptoDate.textContent = start + " - " + end;
 
-  //const del_pointer = document.createElement()
+  const delPointer = document.createElement("i");
+  delPointer.classList.add("fa");
+  delPointer.classList.add("fa-times");
+  delPointer.classList.add("del_pointer");
 
-  //alert(img + pto_date.textContent)
-  new_pto_container.appendChild(imageElem);
-  new_pto_container.appendChild(pto_date);
+  //alert(img + ptoDate.textContent)
+  newPtoContainer.appendChild(delPointer);
+  newPtoContainer.appendChild(imageElem);
+  newPtoContainer.appendChild(ptoDate);
 
-  ptoContainer.appendChild(new_pto_container);
+  ptoContainer.appendChild(newPtoContainer);
 
 }
 
@@ -168,6 +252,7 @@ function pto_create(start, end, id){
 //* Function that responds to new pto button checks stuff and if all good calls pto_create 
 function newPto(){
   const newPtoButton = document.querySelector("#new_pto");
+  const today = new Date().toISOString().split('T')[0];
 
   newPtoButton.addEventListener("click", () => {
     let startDate = localStorage.getItem("startDate");
@@ -198,7 +283,21 @@ function newPto(){
     else{
       //alert(employees[selectedUser - 1].name);
       let pto = startDate + " - " + endDate;
-      employees[selectedUser-1].ptos.push(pto);
+
+      if(endDate < today){
+        employees[selectedUser-1].pto_past.push(pto);
+      }
+      else if(endDate > today && startDate < today){
+        employees[selectedUser-1].pto_current.push(pto);
+      }
+      else if(startDate > today){
+        employees[selectedUser-1].pto_future.push(pto);
+      }
+      else{
+        alert("smth weird");
+      }
+      
+
       localStorage.setItem("employees", JSON.stringify(employees));
 
       // calls to create new pto
