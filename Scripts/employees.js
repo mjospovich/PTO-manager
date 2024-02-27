@@ -3,8 +3,8 @@
 //* Image constants
 const summer_img = "Assets/summer.jpg";
 const spring_img = "Assets/spring.jpg";
-const winter_img = "https://images.pexels.com/photos/1438761/pexels-photo-1438761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-const fall_img = "https://images.pexels.com/photos/688830/pexels-photo-688830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+const winter_img = "https://images.pexels.com/photos/773953/pexels-photo-773953.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+const fall_img = "https://images.pexels.com/photos/14350806/pexels-photo-14350806.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
 // Todays date
 const today = new Date().toISOString().split('T')[0];
@@ -235,6 +235,7 @@ function pto_create(start, end, id, ptoContainer){
   imageElem.classList.add("pto_image");
   imageElem.src = img;
 
+  // Date paragraph
   const ptoDate = document.createElement("p");
   ptoDate.textContent = start + " - " + end;
 
@@ -244,6 +245,7 @@ function pto_create(start, end, id, ptoContainer){
   delPointer.classList.add("del_pointer");
 
   //alert(img + ptoDate.textContent)
+  // Adding everytjing to inner pto
   newPtoContainer.appendChild(delPointer);
   newPtoContainer.appendChild(imageElem);
   newPtoContainer.appendChild(ptoDate);
@@ -306,7 +308,6 @@ function newPto(){
       // calls to create new pto
       makeContainers()
       //pto_create(startDate, endDate, selectedUser)
-      // add delete
     }
 
     // Reset local storage for dates
@@ -327,6 +328,7 @@ function delete_pto(){
     delete_button.forEach(button=>{
       button.addEventListener("click", () => {
   
+        // Getting needed variables
         const parentPto = button.parentElement;
         const date = parentPto.lastChild.textContent;
         let startDate = date.split(" - ")[0];
@@ -335,18 +337,22 @@ function delete_pto(){
   
         //console.log(id);
   
+        // PAst
         if(endDate < today){
           employees[id-1].pto_past = employees[id-1].pto_past.filter(d => d != date)
         }
+        // Current
         else if(endDate >= today && startDate < today){
           //alert(date == employees[id-1].pto_current[0])
           employees[id-1].pto_current = employees[id-1].pto_current.filter(d => d != date)
           //console.log(employees[1].pto_current)
         }
+        // Future
         else if(startDate > today){
           employees[id-1].pto_future = employees[id-1].pto_future.filter(d => d != date)
         }
 
+        // Update local storage and refreshs
         localStorage.setItem("employees", JSON.stringify(employees));
         makeContainers();
         location.reload();
