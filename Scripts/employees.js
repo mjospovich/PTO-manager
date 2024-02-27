@@ -6,6 +6,9 @@ const spring_img = "Assets/spring.jpg";
 const winter_img = "https://images.pexels.com/photos/1438761/pexels-photo-1438761.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 const fall_img = "https://images.pexels.com/photos/688830/pexels-photo-688830.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
+// Todays date
+const today = new Date().toISOString().split('T')[0];
+
 
 //* Function for fetchin API data for employee dropdown
 async function fetchEmployees() {
@@ -192,6 +195,7 @@ function makeContainers(){
 
   })
 
+
 }
 
 //* Function that takes in info about new pto and creates it for that employee
@@ -252,7 +256,6 @@ function pto_create(start, end, id, ptoContainer){
 //* Function that responds to new pto button checks stuff and if all good calls pto_create 
 function newPto(){
   const newPtoButton = document.querySelector("#new_pto");
-  const today = new Date().toISOString().split('T')[0];
 
   newPtoButton.addEventListener("click", () => {
     let startDate = localStorage.getItem("startDate");
@@ -287,7 +290,7 @@ function newPto(){
       if(endDate < today){
         employees[selectedUser-1].pto_past.push(pto);
       }
-      else if(endDate > today && startDate < today){
+      else if(endDate >= today && startDate < today){
         employees[selectedUser-1].pto_current.push(pto);
       }
       else if(startDate > today){
@@ -303,6 +306,7 @@ function newPto(){
       // calls to create new pto
       makeContainers()
       //pto_create(startDate, endDate, selectedUser)
+      // add delete
     }
 
     // Reset local storage for dates
@@ -311,6 +315,45 @@ function newPto(){
     location.reload();
   });
 
+}
+
+//* Function for deleting a pto
+function delete_pto(){
+  const delete_button = document.querySelectorAll(".del_pointer");
+  let employees = JSON.parse(localStorage.getItem("employees"));
+
+  if (delete_button){
+
+    delete_button.forEach(button=>{
+      button.addEventListener("click", () => {
+  
+        const parentPto = button.parentElement;
+        const date = parentPto.lastChild.textContent;
+        let startDate = date.split(" - ")[0];
+        let endDate = date.split(" - ")[1];
+        let id = parentPto.parentElement.id.split("_")[3];
+  
+        //console.log(id);
+  
+        if(endDate < today){
+          employees[id-1].pto_past = employees[id-1].pto_past.filter(d => d != date)
+        }
+        else if(endDate >= today && startDate < today){
+          //alert(date == employees[id-1].pto_current[0])
+          employees[id-1].pto_current = employees[id-1].pto_current.filter(d => d != date)
+          //console.log(employees[1].pto_current)
+        }
+        else if(startDate > today){
+          employees[id-1].pto_future = employees[id-1].pto_future.filter(d => d != date)
+        }
+
+        localStorage.setItem("employees", JSON.stringify(employees));
+        makeContainers();
+        location.reload();
+      })
+  
+    })
+  }
 }
 
 
@@ -326,3 +369,4 @@ else{
 
 // Call newPto listener
 newPto();
+delete_pto();
