@@ -201,8 +201,8 @@ function makeContainers(){
 //* Function that takes in info about new pto and creates it for that employee
 function pto_create(start, end, id, ptoContainer){
    
-  const month = Number(start.slice(6,7));
-  //alert(start.slice(6,7))
+  const month = Number(start.slice(5,7));
+  //alert(start.slice(5,7))
   
   
   let img = "";
